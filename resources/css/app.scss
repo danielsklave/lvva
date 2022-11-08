@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.media.comment:last-child {
+    margin-bottom: 4em !important;
+}
+.truncate2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+@media (min-width: 768px){
+    nav.md\:p-2 {
+        padding: 0.5rem;
+    }
+}
+
+.test {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.page-body {
+    a[href$=".pdf"] {
+        @apply m-1 inline-flex justify-center items-center p-3 text-base font-medium text-gray-500 bg-gray-100 rounded-lg hover:text-gray-900 hover:bg-gray-100;
+        &::before {
+            font-family: "Font Awesome 6 Free";
+            content: "\f1c1";
+            font-size: x-large;
+            margin-right: 10px;
+        }
+    }
+}
