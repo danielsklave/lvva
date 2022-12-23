@@ -1,13 +1,26 @@
+@import '~lightgallery/css/lightgallery-bundle.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+html {
+    font-family: Inter;
+}
+
 .media.comment:last-child {
     margin-bottom: 4em !important;
 }
-.truncate2 {
+
+.truncate-text {
     display: -webkit-box;
     -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.truncate-text-long {
+    display: -webkit-box;
+    -webkit-line-clamp: 10;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -17,22 +30,132 @@
         padding: 0.5rem;
     }
 }
-
-.test {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+@media (min-width: 1280px){
+    div.xl\:grid-cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
 }
 
-.page-body {
-    a[href$=".pdf"] {
-        @apply m-1 inline-flex justify-center items-center p-3 text-base font-medium text-gray-500 bg-gray-100 rounded-lg hover:text-gray-900 hover:bg-gray-100;
+@media (min-width: 640px){
+    #lightgallery.sm\:grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+@media (min-width: 1024px){
+    #lightgallery.lg\:grid-cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+@media (min-width: 1536px){
+    #lightgallery.\32xl\:grid-cols-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+body button.bg-sky-700 {
+    background-color: rgb(3 105 161);
+}
+
+.style-links a, a.style-links {
+    &[href]{
+        @apply my-1 inline-flex items-center py-2 px-4 font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-200 focus:text-blue-700;
         &::before {
             font-family: "Font Awesome 6 Free";
-            content: "\f1c1";
-            font-size: x-large;
+            font: var(--fa-font-solid);
             margin-right: 10px;
         }
     }
+    &[href]:not(:where(
+        /* excluded links */
+        [href^="#"],
+        [href^="/"]:not([href^="//"]),
+        [href*="//www.lvva.lv"],
+        [href*="//127.0.0.1:8000"]
+    ))::before {
+        content: "\f0c1";
+    }
+    &[href$=".pdf"]::before {
+        content: "\f1c1";
+        margin: 0 14px 0 4px;
+    }
+    &[href$=".doc"]::before {
+        content: "\f1c2";
+        margin: 0 14px 0 4px;
+    }
+    &[href$=".xlsx"]::before {
+        content: "\f1c3";
+        margin: 0 14px 0 4px;
+    }
+    &[href^="tel:"]::before {
+        content: "\f095";
+    }
+}
+@media screen and ( max-width: 640px ){
+    .pagination {
+        // li.page-item {
+        //     display: none;
+
+        //     &:nth-child( 2 ),
+        //     &:nth-child( 3 ),
+        //     &:nth-last-child( 2 ),
+        //     &:nth-last-child( 3 ),
+        //     &.active,
+        //     &.disabled {
+        //         display: block;
+        //     }
+        // }
+    
+    }
+}
+
+.note-editor.note-frame .note-toolbar,
+.note-editor.note-frame div.note-statusbar {
+    background-color: white;
+}
+
+.page-title {
+    @apply text-3xl font-bold flex justify-between items-center gap-4;
+}
+
+.btn-sm {
+    @apply gap-2 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-sky-700 rounded-lg hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-blue-300;
+}
+
+.btn-md {
+    @apply gap-2 inline-flex items-center py-2 px-4 font-medium text-center text-white bg-sky-700 rounded-lg hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-blue-300;
+}
+
+#accordion-open h2:last-of-type button,
+#accordion-open > div:last-of-type > div {
+    border-bottom-width: 1px;
+}
+
+.page-body input[type="file"]::file-selector-button {
+    @apply bg-sky-700 hover:bg-sky-800;
+}
+
+.filepond--credits {
+    display: none;
+}
+
+@media (min-width: 30em) {
+    .filepond--item {
+        width: calc(50% - 0.5em);
+    }
+}
+
+@media (min-width: 50em) {
+    .filepond--item {
+        width: calc(33.33% - 0.5em);
+    }
+}
+
+.fr-view .fr-file::after {
+    display: none;
+    clear: both;
+}
+
+.label-required:after {
+    content:" *";
+    color: red;
 }

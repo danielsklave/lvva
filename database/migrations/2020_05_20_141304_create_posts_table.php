@@ -16,10 +16,12 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->text('body');
-            $table->integer('user_id')->unsigned();
-            $table->integer('category_id')->unsigned();
+            $table->text('body')->nullable();
+            $table->foreignId('user_id');
+            $table->string('cover_image')->nullable();
+            $table->enum('category', ['new', 'album', 'board_meeting', 'member_meeting', 'contest', 'tournament']);
             $table->boolean('is_published')->default(false);
+            $table->boolean('is_pinned')->default(false);
             $table->timestamps();
         });
     }

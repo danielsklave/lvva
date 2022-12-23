@@ -1,12 +1,13 @@
 <!-- Single Comment -->
-<div class="media mb-4 comment">
-    <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-    <div class="media-body">
-        <h5 class="mt-0">
-            {{ $comment->user->name }}
-            <small class="float-right text-muted">{{ $comment->created_at->diffForHumans() }}</small>
-        </h5>
-
-        {{ $comment->body }}
+<div class="rounded-lg border border-gray-200 px-6 py-4">
+    <div class="flex justify-between items-center mb-2">
+        <div class="flex items-center">
+            <p class="inline-flex items-center mr-3 text-gray-800">{{ $comment->user->name }}</p>
+            <p class="text-gray-400">{{ $comment->created_at->diffForHumans() }}</p>
+        </div>
     </div>
+
+    <p>
+        {{ $comment->body }}
+    </p>
 </div>

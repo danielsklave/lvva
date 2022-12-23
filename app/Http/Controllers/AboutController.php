@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Category;
 use App\Comment;
+use App\News;
 use App\Post;
+use App\Album;
 
 class AboutController extends Controller
 {
@@ -14,24 +15,29 @@ class AboutController extends Controller
         return view('about.contacts');
     }
 
-    public function board()
-    {
-        return view('about.board');
-    }
-
     public function antidoping()
     {
         return view('antidoping');
     }
 
+    public function records()
+    {
+        return view('records');
+    }
+
     public function home()
     {
-        $posts = Post::with('category', 'user')
-            ->withCount('comments')
+        $news = News::withCount('comments')
             ->published()
             ->orderBy('created_at', 'desc')
-            ->paginate(5);
+            ->limit(3)
+            ->get();
 
-        return view('home', compact('posts'));
+        $albums = Album::withCount('files')
+            ->orderBy('created_at', 'desc')
+            ->limit(3)
+            ->get();
+
+        return view('home', compact('news', 'albums'));
     }
 }

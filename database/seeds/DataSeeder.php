@@ -1,9 +1,9 @@
 <?php
 
 use App\Post;
-use App\Category;
 use App\Comment;
 use App\User;
+use App\File;
 use Illuminate\Database\Seeder;
 
 class DataSeeder extends Seeder
@@ -15,15 +15,15 @@ class DataSeeder extends Seeder
      */
     public function run()
     {
-        Category::truncate();
         User::truncate();
         Post::truncate();
         Comment::truncate();
+        File::truncate();
 
-        factory(Category::class, 10)->create();
         factory(User::class, 10)->create();
         factory(Post::class, 200)->create();
         factory(Comment::class, 40)->create();
+        factory(File::class, 19)->create();
 
         $user = User::create([
             'name'      => 'Admin',

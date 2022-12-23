@@ -12,18 +12,25 @@ class CommentController extends Controller
         $this->middleware('auth');
     }
 
+    public function index()
+    {
+        $comments = Comment::with(['user', 'post'])->paginate(10);
+
+        return view('comments.index', compact('comments'));
+    }
+
     public function destroy(Comment $comment)
     {
         if($comment->user_id != auth()->user()->id && auth()->user()->isNotAdmin()) {;
             return redirect()
-                ->route('user.comments')
+                ->route('comments.index')
                 ->withMessage("You can't delete other peoples comment.");;
         }
 
         $comment->delete();
 
         return redirect()
-            ->route('user.comments')
+            ->route('comments.index')
             ->withMessage('Comment deleted successfully.');
     }
 }

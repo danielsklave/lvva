@@ -2,15 +2,26 @@
 
 @section('body')
 
-    <h1 class="text-3xl font-bold mb-6">Jaunumi</h1>
+    <h1 class="page-title">
+        Jaunākās ziņas
+        <a href="/posts" class="style-links text-base gap-2">
+            Ziņas <i class="fa-solid fa-arrow-right"></i>
+        </a>
+    </h1>
 
-    <div class="grid gap-4">
-        @each('partials.post', $posts, 'post', 'partials.empty-post')
+    <div class="grid gap-4 lg:grid-cols-3">
+        @each('partials.compact-post', $news, 'post')
     </div>
 
-    {{ $posts->links() }}
+    <h1 class="page-title">
+        Jaunākie albumi
+        <a href="/albums" class="style-links text-base gap-2">
+            Galerija <i class="fa-solid fa-arrow-right"></i>
+        </a>
+    </h1>
 
-    @include('includes.sidebar')
-    
+    <div class="grid gap-4 lg:grid-cols-3">
+        @each('partials.compact-post', $albums, 'post')
+    </div>
     
 @endsection

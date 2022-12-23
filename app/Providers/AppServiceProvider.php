@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Category;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Pagination\Paginator;
@@ -29,12 +28,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        view()->composer(
-            ['includes.sidebar', 'user.posts.create', 'user.posts.edit', 'user.categories'], 
-            function ($view) {
-                $view->with('categories', Category::all());
-            }
-        );
+        setlocale(LC_TIME, 'lv-LV');
+        \Carbon\Carbon::setLocale(config('app.locale'));
 
         Paginator::defaultView('pagination::default');
  

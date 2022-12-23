@@ -3,6 +3,4 @@
 
     @include('partials.search-form-widget')
 
-    @include('partials.category-widget')
-
 </div>

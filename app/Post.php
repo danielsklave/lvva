@@ -10,23 +10,17 @@ class Post extends Model
         'title',
         'body',
         'user_id',
-        'category_id',
-        'is_published'
+        'category',
+        'cover_image',
+        'is_published',
+        'is_pinned',
+        'created_at'
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::deleting(function ($post) {
-            $post->comments()->delete();
-        });
-    }
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
+    protected $casts = [
+        'is_published' => 'boolean',
+        'is_pinned' => 'boolean',
+    ];
 
     public function user()
     {
@@ -35,7 +29,12 @@ class Post extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class)->orderBy('created_at', 'desc');
+    }
+
+    public function files()
+    {
+        return $this->hasMany(File::class)->orderBy('order', 'asc');
     }
 
     public function scopePublished($query)
@@ -51,11 +50,6 @@ class Post extends Model
     public function getPublishedAttribute()
     {
         return ($this->is_published) ? 'Yes' : 'No';
-    }
-
-    public function getEtagAttribute()
-    {
-        return hash('sha256', "product-{$this->id}-{$this->updated_at}");
     }
 
     public function path()

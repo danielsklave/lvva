@@ -1,14 +1,11 @@
-<div class="card my-4">
-    <h5 class="card-header">Leave a Comment:</h5>
-    <div class="card-body">
-        <form action="{{ route('post.comment', $post) }}" method="POST">
-            @csrf
+<form class="space-y-4 !mb-8" action="{{ route('posts.comment', ['post' => $news]) }}" method="POST">
+    @csrf
 
-            <div class="form-group">
-                <textarea class="form-control" name="body" rows="3"></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Reply</button>
-        </form>
+    <div class="py-2 px-4 bg-white rounded-lg rounded-t-lg border border-gray-200">
+        <textarea placeholder="Komentārs..." class="px-0 w-full text-gray-900 border-0 focus:ring-0 focus:outline-none" name="body" rows="3"></textarea>
     </div>
-</div>
+
+    <button type="submit" class="btn-sm">
+        Komentēt
+    </button>
+</form>

@@ -27,9 +27,9 @@
                 @if (is_array($element))
                     @foreach ($element as $page => $url)
                         @if ($page == $paginator->currentPage())
-                            <li aria-current="page"><span class="z-10 py-2 px-3 leading-tight text-blue-600 bg-blue-50 border border-blue-300 hover:bg-blue-100 hover:text-blue-700">{{ $page }}</span></li>
+                            <li class="page-item" aria-current="page"><span class="z-10 py-2 px-3 leading-tight text-blue-600 bg-blue-50 border border-blue-300 hover:bg-blue-100 hover:text-blue-700">{{ $page }}</span></li>
                         @else
-                            <li><a class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700" href="{{ $url }}">{{ $page }}</a></li>
+                            <li class="page-item"><a class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700" href="{{ $url }}">{{ $page }}</a></li>
                         @endif
                     @endforeach
                 @endif

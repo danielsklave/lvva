@@ -2,12 +2,12 @@
 
 @section('body')
 
-    <h1 class="text-3xl font-bold">Antidopings</h1>
-    <div class="flex flex-col">
-        <a class="w-fit" href="https://www.irunclean.org/">"I Run Clean" apmācības un sertifikāta iegūšana</a>
-        <a class="w-fit" href="https://antidopings.gov.lv/">Latvijas antidopinga biroja mājas lapa</a>
-        <a class="w-fit" href="https://antidopings.gov.lv/aizliegtas-vielas/parbaudit-medikamentu">Medikamentu pārbaude</a>
-        <a class="w-fit" href="http://www.lvva.lv/antidopings/aizliegtaas_vielas.pdf">
+    <h1 class="page-title">Antidopings</h1>
+    <div class="flex flex-col style-links">
+        <a class="w-fit" href="https://www.irunclean.org/" target="_blank">"I Run Clean" apmācības un sertifikāta iegūšana</a>
+        <a class="w-fit" href="https://antidopings.gov.lv/" target="_blank">Latvijas antidopinga biroja mājas lapa</a>
+        <a class="w-fit" href="https://antidopings.gov.lv/aizliegtas-vielas/parbaudit-medikamentu" target="_blank">Medikamentu pārbaude</a>
+        <a class="w-fit" href="http://www.lvva.lv/antidopings/aizliegtaas_vielas.pdf" target="_blank">
             Aizliegto vielu un metožu saraksts (2020)
         </a> 
     </div>
