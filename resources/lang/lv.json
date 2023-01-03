@@ -1,0 +1,12 @@
+{
+    "Reset Password Notification": "LVVA Paroles atjaunošana",
+    "Hello!": "Sveiki,",
+    "You are receiving this email because we received a password reset request for your account.": "Jūs saņēmāt šo e-pastu, jo tika veikts pieprasījums paroles atjaunošanai.",
+    "Reset Password": "Atjaunot paroli",
+    "This password reset link will expire in :count minutes.": "Šī saite ir derīga :count minūtes.",
+    "If you did not request a password reset, no further action is required.": "Ja jūs neveicāt šo pieprasījumu, nekādas tālākas darbības nav nepieciešamas.",
+    "Regards": "Ar cieņu",
+    "Oh no": "Ak nē",
+    "Whoops!": "Ups!",
+    "If you're having trouble clicking the \":actionText\" button, copy and paste the URL below into your web browser:": "Ja jums neizdodas atvērt spiežot pogu \":actionText\", nokopējiet šo saiti un ievadiet pārlūkā:"
+}

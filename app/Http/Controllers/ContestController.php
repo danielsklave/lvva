@@ -3,68 +3,53 @@
 namespace App\Http\Controllers;
 
 use App\Contest;
-use Illuminate\Http\Request;
 
 class ContestController extends Controller
 {
-    private $validation = [
-        'title'      => 'required|max:250',
-        'body'       => 'required',
-        'created_at' => 'required',
-    ];
-
     public function __construct()
     {
-        $this->middleware('auth')->except(['index']);
+        $this->middleware('admin')->except(['index', 'show']);
     }
 
     public function index()
     {
-        $contestsByYear = Contest::orderBy('created_at', 'desc')->get()
+        $contestsByYear = Contest::filterFromRequest()
+            ->orderBy('created_at', 'desc')
+            ->published()
+            ->get()
             ->groupBy(function($data) { return $data->created_at->format('Y'); });
 
-        return view('contests.index', compact('contestsByYear'));
+        return view('contests', compact('contestsByYear'));
+    }
+
+    public function show(Contest $contest)
+    {
+        if(!$contest->is_published && !(auth()->user() && auth()->user()->is_admin))
+            return redirect()->route('home');
+
+        return redirect()->route('contests.index');
     }
 
     public function create()
     {
-        return view('contests.edit', ['contest' => new Contest()]);
+        return view('posts.edit', ['post' => new Contest()]);
     }
 
     public function store()
     {
-        request()->validate($this->validation);
-
-        $contest = Contest::create([
-            'user_id'       => auth()->id(),
-            'title'         => request()->title,
-            'body'          => request()->body,
-            'is_published'  => request()->has('is_published'),
-            'is_pinned'     => request()->has('is_pinned'),
-            'created_at'    => request()->created_at
-        ]);
-
-        session()->flash('message', 'Contest created successfully.');
+        Contest::createFromRequest();
 
         return redirect()->route('contests.index');
     }
 
     public function edit(Contest $contest)
     {
-        return view('contests.edit', compact('contest'));
+        return view('posts.edit', ['post' => $contest]);
     }
 
     public function update(Contest $contest)
     {
-        request()->validate($this->validation);
-
-        $contest->update([
-            'title'         => request()->title,
-            'body'          => request()->body,
-            'is_published'  => request()->has('is_published'),
-            'is_pinned'     => request()->has('is_pinned'),
-            'created_at'    => request()->created_at
-        ]);
+        $contest->updateFromRequest();
 
         return redirect()->route('contests.index');
     }

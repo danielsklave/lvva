@@ -5,10 +5,13 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasFactory;
+
+    protected $rememberTokenName = false;
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password'
     ];
 
     /**
@@ -25,7 +28,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password'
     ];
 
     /**
@@ -34,8 +37,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'is_admin'          => 'boolean'
+        'is_admin' => 'boolean'
     ];
 
     public function posts()
@@ -46,15 +48,5 @@ class User extends Authenticatable
     public function comments()
     {
         return $this->hasMany(Comment::class);
-    }
-
-    public function scopeAdmin($query)
-    {
-        return $query->where('is_admin', true);
-    }
-
-    public function isNotAdmin()
-    {
-        return $this->is_admin == false;
     }
 }

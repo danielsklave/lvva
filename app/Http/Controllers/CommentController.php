@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Comment;
 
 class CommentController extends Controller
@@ -10,27 +9,25 @@ class CommentController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('admin')->except(['destroy']);
     }
 
     public function index()
     {
-        $comments = Comment::with(['user', 'post'])->paginate(10);
+        $comments = Comment::filterFromRequest()
+            ->with(['user', 'post'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10)
+            ->withQueryString();
 
-        return view('comments.index', compact('comments'));
+        return view('comments', compact('comments'));
     }
 
     public function destroy(Comment $comment)
     {
-        if($comment->user_id != auth()->user()->id && auth()->user()->isNotAdmin()) {;
-            return redirect()
-                ->route('comments.index')
-                ->withMessage("You can't delete other peoples comment.");;
-        }
+        if(auth()->user()->is_admin || auth()->id() === $comment->user->id)
+            $comment->delete();
 
-        $comment->delete();
-
-        return redirect()
-            ->route('comments.index')
-            ->withMessage('Comment deleted successfully.');
+        return back();
     }
 }

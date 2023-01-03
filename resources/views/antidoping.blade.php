@@ -2,7 +2,10 @@
 
 @section('body')
 
-    <h1 class="page-title">Antidopings</h1>
+    <div class="page-title">
+        <h1>Antidopings</h1>
+    </div>
+
     <div class="flex flex-col style-links">
         <a class="w-fit" href="https://www.irunclean.org/" target="_blank">"I Run Clean" apmācības un sertifikāta iegūšana</a>
         <a class="w-fit" href="https://antidopings.gov.lv/" target="_blank">Latvijas antidopinga biroja mājas lapa</a>

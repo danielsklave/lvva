@@ -2,24 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\File;
-use Illuminate\Http\Request;
-
 class FileController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('admin');
     }
 
     public function upload()
     {
-        $file = request()->file;
-        $filename = time().$file->getClientOriginalName();
-        $file->move('storage/files/', $filename);
+        $responseData = [];
+        
+        foreach (request()->file('files') as $file)
+        {
+            $filename = time().$file->getClientOriginalName();
+            $file->move('storage/files/', $filename);
+
+            $responseData[] = [
+                'path' => asset('storage/files/'.$filename),
+                'mime' => $file->getClientMimeType()
+            ];
+        }
 
         return response()->json([
-            'link' => asset('storage/files/'.$filename),
+            'success' => true,
+            'data' => [
+                'files' => $responseData,
+            ],
+            'mmessage' => '',
+            'error' => '',
         ]);
 
     }

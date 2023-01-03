@@ -12,8 +12,8 @@ const tailwindcss = require('tailwindcss');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .js("./node_modules/flowbite/dist/flowbite.js", "public/js")
+mix.js("./node_modules/flowbite/dist/flowbite.js", "public/js")
+    .js('resources/js/app.js', 'public/js')
     .sass('resources/css/app.scss', 'public/css').options({
         postCss: [ tailwindcss('./tailwind.config.js') ],
     }).version();

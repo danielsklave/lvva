@@ -13,21 +13,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes(['verify' => false, 'reset' => false]);
+Auth::routes();
 
-Route::get('/', 'AboutController@home')->name('home');
+Route::get('/', 'PageController@home')->name('home');
 
-Route::get('dashboard', 'UserController@dashboard')->name('dashboard');
-Route::get('user/profile', 'UserController@profile')->name('profile');
+Route::get('profile', 'UserController@profile')->name('profile');
 
-Route::get('about/contacts', 'AboutController@contacts')->name('about.contacts');
-Route::get('about/meetings', 'AboutController@meetings')->name('about.meetings');
+Route::delete('user', 'UserController@destroy')->name('users.destroy');
+Route::post('user/change_password', 'UserController@changePassword')->name('users.change_password');
 
-Route::get('antidoping', 'AboutController@antidoping')->name('antidoping');
-Route::get('records', 'AboutController@records')->name('records');
+Route::get('contacts', 'PageController@contacts')->name('contacts');
 
+Route::get('antidoping', 'PageController@antidoping')->name('antidoping');
+
+Route::get('records', 'PageController@records')->name('records');
+
+Route::resource('posts', 'PostController')->only(['index', 'destroy']);
 Route::post('posts/{post}/comment', 'PostController@comment')->name('posts.comment');
-Route::resource('posts', 'PostController');
 
 Route::resource('comments', 'CommentController');
 

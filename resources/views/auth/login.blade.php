@@ -1,41 +1,56 @@
 @extends('layouts.register')
 
 @section('body')
-    <form class="form-signin" action="{{ route('login') }}" method="POST">
+
+<div class="grow m-auto max-w-md bg-white rounded-lg p-8 space-y-4">
+
+    <div class="font-bold text-2xl flex items-center justify-between">
+        Autentifikācija
+        @include('partials.back-link')
+    </div>
+
+    <form 
+        method="POST"
+        action="{{ route('login') }}"
+        class="space-y-4"
+    >
         @csrf
 
-        <h1 class="h3 mb-3 font-weight-normal">Autorizācija</h1>
+        <x-input 
+            label="E-pasta adrese"
+            name="email"
+            type="email"
+            required
+        />
 
-        <div class="form-group">
-            <label for="inputEmail" class="sr-only">E-pasta adrese</label>
-            <input type="email" name="email" class="form-control" placeholder="E-pasta adrese" required="">
+        <x-input 
+            label="Parole"
+            name="password"
+            type="password"
+            required
+        />
 
-            @error('email')
-                <span class="text-red-600" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
-        </div>
+        <button type="submit" class="btn-md">
+            Autentificēties
+        </button>
 
-        <div class="form-group">
-            <label for="inputPassword" class="sr-only">Parole</label>
-            <input type="password" name="password" class="form-control" placeholder="Parole" required="">
-
-            @error('password')
-                <span class="text-red-600" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span> 
-            @enderror
-        </div>
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" value="remember-me"> Atcerēties lietotāju
-            </label>
-        </div>
-
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Autorizēties</button>
-
-        <p class="mt-5"><a href="{{ route('register') }}">Reģistrēties</a></p>
     </form>
+
+    <div class="flex gap-4">
+        <a 
+            href="{{ route('register') }}"
+            class="text-sky-600 hover:underline"
+        >
+            Reģistrēties
+        </a>
+
+        <a 
+            href="{{ route('password.request') }}"
+            class="text-sky-600 hover:underline"
+        >
+            Aizmirsi paroli?
+        </a>
+    </div>
+
+</div>
 @endsection

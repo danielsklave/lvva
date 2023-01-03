@@ -2,26 +2,42 @@
 
 @section('body')
 
-    <h1 class="page-title">
-        Jaunākās ziņas
-        <a href="/posts" class="style-links text-base gap-2">
-            Ziņas <i class="fa-solid fa-arrow-right"></i>
-        </a>
-    </h1>
+    @php
+        $categories = [
+            'new' => 'Ziņas',
+            'album' => 'Albumi',
+            'tournament' => 'Sacensības',
+            'board_meeting' => 'Valdes sēdes',
+            'member_meeting' => 'Bierdu sapulces',
+            'contest' => 'Konkursi',
+        ];
+    @endphp
 
-    <div class="grid gap-4 lg:grid-cols-3">
-        @each('partials.compact-post', $news, 'post')
-    </div>
+    @if($pins->isNotEmpty())
+        <div class="page-title">
+            <h1>Aktualitātes</h1>
+        </div>
 
-    <h1 class="page-title">
-        Jaunākie albumi
-        <a href="/albums" class="style-links text-base gap-2">
-            Galerija <i class="fa-solid fa-arrow-right"></i>
-        </a>
-    </h1>
+        <div class="flex flex-wrap gap-4">
+            @each('partials.compact-post', $pins, 'post')
+        </div>
+    @endif
 
-    <div class="grid gap-4 lg:grid-cols-3">
-        @each('partials.compact-post', $albums, 'post')
-    </div>
-    
+    @foreach($categories as $name => $title)
+        @if($postsByCategory[$name])
+            <div class="page-title">
+                <h1>{{ $title }}</h1>
+
+                <a href="{{ route($name.'s.index') }}" class="style-links text-base gap-2">
+                    {{ $title }} 
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="flex flex-wrap gap-4">
+                @each('partials.compact-post', $postsByCategory[$name], 'post')
+            </div>
+        @endif
+    @endforeach
+
 @endsection

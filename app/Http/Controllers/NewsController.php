@@ -3,128 +3,62 @@
 namespace App\Http\Controllers;
 
 use App\News;
-use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    private $validation = [
-        'title'      => 'required|max:250',
-        'body'       => 'required',
-        'created_at' => 'required',
-    ];
-
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'search', 'show']);
+        $this->middleware('admin')->except(['index', 'show']);
     }
     
     public function index()
     {
-        $news = News::withCount('comments')
-                    ->published()
-                    ->orderBy('created_at', 'desc')
-                    ->paginate(5);
+        $news = News::filterFromRequest()
+            ->withCount('comments')
+            ->published()
+            ->orderBy('created_at', 'desc')
+            ->paginate(10)
+            ->withQueryString();
 
-        return view('news.index', compact('news'));
-    }
-
-    public function search()
-    {
-        request()->validate(['query' => 'required']);
-
-        $query = request()->get('query');
-
-        $news = News::where('title', 'like', "%{$query}%")
-                    ->orWhere('body', 'like', "%{$query}%")
-                    ->withCount('comments')
-                    ->published()
-                    ->paginate(5);
-
-        return view('news.search', compact('news'));
+        return view('news', compact('news'));
     }
 
     public function show(News $news)
     {
-        return view('news.show', compact('news'));
-    }
+        if(!$news->is_published && !(auth()->user() && auth()->user()->is_admin))
+            return redirect()->route('home');
 
-    public function comment(News $new)
-    {
-        request()->validate(['body' => 'required']);
-
-        $new->comments()->create([
-            'user_id'   => auth()->id(),
-            'body'      => request()->body           
-        ]);
-
-        return redirect()->route('news.show', $new);
+        return view('posts.show', ['post' => $news]);
     }
 
     public function create()
     {
-        return view('news.edit', ['news' => new News()]);
+        return view('posts.edit', ['post' => new News()]);
     }
 
     public function store()
     {
-        request()->validate($this->validation);
-
-        $cover = request()->cover_image;
-        $filename = time().$cover->getClientOriginalName();
-        $cover->move('storage/files/', $filename);
-
-        $news = News::create([
-            'user_id'       => auth()->id(),
-            'title'         => request()->title,
-            'body'          => request()->body,
-            'is_published'  => request()->has('is_published'),
-            'is_pinned'     => request()->has('is_pinned'),
-            'created_at'    => request()->created_at,
-            'cover_image'   => $filename,
-        ]);
-
-        session()->flash('message', 'News created successfully.');
+        $news = News::createFromRequest();
 
         return redirect()->route('news.show', $news);
     }
 
     public function edit(News $news)
     {
-        return view('news.edit', compact('news'));
+        return view('posts.edit', ['post' => $news]);
     }
 
     public function update(News $news)
     {
-        request()->validate($this->validation);
-
-        if(request()->cover_image->getClientOriginalName() == $album->cover_image)
-        {
-            $filename = $album->cover_image;
-        }
-        else
-        {
-            unlink('storage/files/'.$album->cover_image);
-            $cover = request()->cover_image;
-            $filename = time().$cover->getClientOriginalName();
-            $cover->move('storage/files/', $filename);
-        }
-
-        $news->update([
-            'title'         => request()->title,
-            'body'          => request()->body,
-            'is_published'  => request()->has('is_published'),
-            'is_pinned'     => request()->has('is_pinned'),
-            'created_at'    => request()->created_at,
-            'cover_image'   => $filename,
-        ]);
+        $news->updateFromRequest();
 
         return redirect()->route('news.show', $news);
     }
 
-    public function destroy(News $new)
+    public function destroy(News $news)
     {
-        $new->delete();
+        $news->delete();
 
-        return redirect()->route('posts.index');
+        return redirect()->route('news.index');
     }
 }

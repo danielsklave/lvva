@@ -3,46 +3,41 @@
 namespace App\Http\Controllers;
 
 use App\Tournament;
-use Illuminate\Http\Request;
 
 class TournamentController extends Controller
 {
-    private $validation = [
-        'title'      => 'required|max:250',
-        'body'       => 'required',
-        'created_at' => 'required',
-    ];
-
     public function __construct()
     {
-        $this->middleware('auth')->except(['index']);
+        $this->middleware('admin')->except(['index', 'show']);
     }
 
     public function index()
     {
-        $tournamentsByYear = Tournament::orderBy('created_at', 'desc')->get()
+        $tournamentsByYear = Tournament::filterFromRequest()
+            ->orderBy('created_at', 'desc')
+            ->published()
+            ->get()
             ->groupBy(function($data) { return $data->created_at->format('Y'); });
 
-        return view('tournaments.index', compact('tournamentsByYear'));
+        return view('tournaments', compact('tournamentsByYear'));
+    }
+
+    public function show(Tournament $tournament)
+    {
+        if(!$tournament->is_published && !(auth()->user() && auth()->user()->is_admin))
+            return redirect()->route('home');
+
+        return redirect()->route('tournaments.index');
     }
 
     public function create()
     {
-        return view('tournaments.edit', ['tournament' => new Tournament()]);
+        return view('posts.edit', ['post' => new Tournament()]);
     }
 
     public function store()
     {
-        request()->validate($this->validation);
-
-        $tournament = Tournament::create([
-            'user_id'       => auth()->id(),
-            'title'         => request()->title,
-            'body'          => request()->body,
-            'is_published'  => request()->has('is_published'),
-            'is_pinned'     => request()->has('is_pinned'),
-            'created_at'    => request()->created_at
-        ]);
+        Tournament::createFromRequest();
 
         session()->flash('message', 'Tournament created successfully.');
 
@@ -51,20 +46,12 @@ class TournamentController extends Controller
 
     public function edit(Tournament $tournament)
     {
-        return view('tournaments.edit', compact('tournament'));
+        return view('posts.edit', ['post' => $tournament]);
     }
 
     public function update(Tournament $tournament)
     {
-        request()->validate($this->validation);
-
-        $tournament->update([
-            'title'         => request()->title,
-            'body'          => request()->body,
-            'is_published'  => request()->has('is_published'),
-            'is_pinned'     => request()->has('is_pinned'),
-            'created_at'    => request()->created_at
-        ]);
+        $tournament->updateFromRequest();
 
         return redirect()->route('tournaments.index');
     }

@@ -3,46 +3,41 @@
 namespace App\Http\Controllers;
 
 use App\MemberMeeting;
-use Illuminate\Http\Request;
 
 class MemberMeetingController extends Controller
 {
-    private $validation = [
-        'title'      => 'required|max:250',
-        'body'       => 'required',
-        'created_at' => 'required',
-    ];
-
     public function __construct()
     {
-        $this->middleware('auth')->except(['index']);
+        $this->middleware('admin')->except(['index', 'show']);
     }
 
     public function index()
     {
-        $memberMeetingsByYear = MemberMeeting::orderBy('created_at', 'desc')->get()
+        $memberMeetingsByYear = MemberMeeting::filterFromRequest()
+            ->orderBy('created_at', 'desc')
+            ->published()
+            ->get()
             ->groupBy(function($data) { return $data->created_at->format('Y'); });
 
-        return view('member_meetings.index', compact('memberMeetingsByYear'));
+        return view('member_meetings', compact('memberMeetingsByYear'));
+    }
+
+    public function show(MemberMeeting $member_meeting)
+    {
+        if(!$member_meeting->is_published && !(auth()->user() && auth()->user()->is_admin))
+            return redirect()->route('home');
+
+        return redirect()->route('member_meetings.index');
     }
 
     public function create()
     {
-        return view('member_meetings.edit', ['member_meeting' => new MemberMeeting()]);
+        return view('posts.edit', ['post' => new MemberMeeting()]);
     }
 
     public function store()
     {
-        request()->validate($this->validation);
-
-        $member_meeting = MemberMeeting::create([
-            'user_id'       => auth()->id(),
-            'title'         => request()->title,
-            'body'          => request()->body,
-            'is_published'  => request()->has('is_published'),
-            'is_pinned'     => request()->has('is_pinned'),
-            'created_at'    => request()->created_at
-        ]);
+        MemberMeeting::createFromRequest();
 
         session()->flash('message', 'Member_meeting created successfully.');
 
@@ -51,20 +46,12 @@ class MemberMeetingController extends Controller
 
     public function edit(MemberMeeting $member_meeting)
     {
-        return view('member_meetings.edit', compact('member_meeting'));
+        return view('posts.edit', ['post' => $member_meeting]);
     }
 
     public function update(MemberMeeting $member_meeting)
     {
-        request()->validate($this->validation);
-
-        $member_meeting->update([
-            'title'         => request()->title,
-            'body'          => request()->body,
-            'is_published'  => request()->has('is_published'),
-            'is_pinned'     => request()->has('is_pinned'),
-            'created_at'    => request()->created_at
-        ]);
+        $member_meeting->updateFromRequest();
 
         return redirect()->route('member_meetings.index');
     }

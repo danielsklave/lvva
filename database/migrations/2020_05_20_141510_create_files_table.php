@@ -15,11 +15,10 @@ class CreateFilesTable extends Migration
     {
         Schema::create('files', function(Blueprint $table)
         {
-            $table->increments('id');
+            $table->id();
             $table->foreignId('post_id')->cascadeOnDelete();
             $table->string('file_name');
             $table->integer('order')->nullable();
-            $table->timestamps();
         });
     }
 

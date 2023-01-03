@@ -2,7 +2,10 @@
 
 @section('body')
 
-    <h1 class="page-title">Rekordi</h1>
+    <div class="page-title">
+        <h1>Rekordi</h1>
+    </div>
+
     <div class="flex flex-col style-links">
         <a class="w-fit" href="http://www.lvva.lv/STATISTIKA/LVVA%20Latvijas%20veter%C4%81nu%20rekordi%20vieglatl%C4%93tik%C4%81%20(11%202021)%20V%C4%AARIE%C5%A0I.pdf" target="_blank">
             Latvijas veterānu rekordi vieglatlētikā vīriešiem (uz 01.11.2021)

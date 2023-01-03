@@ -8,22 +8,17 @@ class Tournament extends Post
 {
     use HasParentModel;
 
+    protected $attributes = [
+        'category' => 'tournament',
+        'is_published' => true
+    ];
+
     public static function boot()
     {
         parent::boot();
-
-        self::creating(function($model){
-            $model->category = 'tournament';
-        });
 
         static::addGlobalScope(function ($query) {
             $query->where('category', 'tournament');
         });
     }
-
-    public function path()
-    {
-        return url("/tournaments");
-    }
-
 }

@@ -8,6 +8,23 @@ html {
     font-family: Inter;
 }
 
+.bg-img {
+    width: 100%;
+    min-width: 0;
+    @apply bg-gray-50;
+}
+
+.jodit-wysiwyg {
+    ul {
+        padding-left: 2rem;
+        list-style: unset;
+    }
+    ol {
+        padding-left: 2rem;
+        list-style: auto;
+    }
+}
+
 .media.comment:last-child {
     margin-bottom: 4em !important;
 }
@@ -70,7 +87,7 @@ body button.bg-sky-700 {
         [href^="#"],
         [href^="/"]:not([href^="//"]),
         [href*="//www.lvva.lv"],
-        [href*="//127.0.0.1:8000"]
+        [href*="//192.168.0.178:8000"]
     ))::before {
         content: "\f0c1";
     }
@@ -90,23 +107,6 @@ body button.bg-sky-700 {
         content: "\f095";
     }
 }
-@media screen and ( max-width: 640px ){
-    .pagination {
-        // li.page-item {
-        //     display: none;
-
-        //     &:nth-child( 2 ),
-        //     &:nth-child( 3 ),
-        //     &:nth-last-child( 2 ),
-        //     &:nth-last-child( 3 ),
-        //     &.active,
-        //     &.disabled {
-        //         display: block;
-        //     }
-        // }
-    
-    }
-}
 
 .note-editor.note-frame .note-toolbar,
 .note-editor.note-frame div.note-statusbar {
@@ -114,7 +114,10 @@ body button.bg-sky-700 {
 }
 
 .page-title {
-    @apply text-3xl font-bold flex justify-between items-center gap-4;
+    h1 {
+        @apply text-3xl font-bold;
+    }
+    @apply flex justify-between items-center gap-4;
 }
 
 .btn-sm {

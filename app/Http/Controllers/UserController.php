@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
-use App\Comment;
-use App\Post;
 
 class UserController extends Controller
 {
@@ -15,14 +16,36 @@ class UserController extends Controller
 
     public function profile()
     {
-        return view('user.profile');
+        return view('profile', ['user' => auth()->user()]);
     }
-
-    public function dashboard()
+    
+    public function destroy()
     {
-        $posts      = Post::count();
-        $comments   = Comment::count();
+        $user = auth()->user();
 
-        return view('user.dashboard', get_defined_vars());
+        $user->delete();
+
+        return redirect()->route('home');
+    }
+    
+    public function changePassword()
+    {
+        $user = auth()->user();
+
+        $this->validate(request(), [
+            'current_password' => ['required', function ($attribute, $value, $fail) use ($user) 
+            {
+                // Check if the entered current password hash matches the current users password hash
+                if (!Hash::check($value, $user->password))
+                    $fail('Norādīta parole nav pareiza');
+            }],
+            'new_password' => 'required|different:current_password|confirmed|min:8|max:191|string'
+        ]);
+
+        // Set & save the hashed new password
+        $user->password = Hash::make(request('new_password'));
+        $user->save();
+
+        return redirect()->route('login')->with(auth()->logout());
     }
 }

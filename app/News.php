@@ -8,21 +8,17 @@ class News extends Post
 {
     use HasParentModel;
 
+    protected $attributes = [
+        'category' => 'new',
+        'is_published' => true
+    ];
+
     public static function boot()
     {
         parent::boot();
 
-        self::creating(function($model){
-            $model->category = 'new';
-        });
-
         static::addGlobalScope(function ($query) {
             $query->where('category', 'new');
         });
-    }
-
-    public function path()
-    {
-        return url("/news/{$this->id}");
     }
 }

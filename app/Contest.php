@@ -8,22 +8,17 @@ class Contest extends Post
 {
     use HasParentModel;
 
+    protected $attributes = [
+        'category' => 'contest',
+        'is_published' => true
+    ];
+
     public static function boot()
     {
         parent::boot();
-
-        self::creating(function($model){
-            $model->category = 'contest';
-        });
 
         static::addGlobalScope(function ($query) {
             $query->where('category', 'contest');
         });
     }
-
-    public function path()
-    {
-        return url("/contests");
-    }
-
 }

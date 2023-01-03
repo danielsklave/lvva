@@ -3,46 +3,41 @@
 namespace App\Http\Controllers;
 
 use App\BoardMeeting;
-use Illuminate\Http\Request;
 
 class BoardMeetingController extends Controller
 {
-    private $validation = [
-        'title'      => 'required|max:250',
-        'body'       => 'required',
-        'created_at' => 'required',
-    ];
-
     public function __construct()
     {
-        $this->middleware('auth')->except(['index']);
+        $this->middleware('admin')->except(['index', 'show']);
     }
 
     public function index()
     {
-        $boardMeetingsByYear = BoardMeeting::orderBy('created_at', 'desc')->get()
+        $boardMeetingsByYear = BoardMeeting::filterFromRequest()
+            ->orderBy('created_at', 'desc')
+            ->published()
+            ->get()
             ->groupBy(function($data) { return $data->created_at->format('Y'); });
 
-        return view('board_meetings.index', compact('boardMeetingsByYear'));
+        return view('board_meetings', compact('boardMeetingsByYear'));
+    }
+
+    public function show(BoardMeeting $board_meetings)
+    {
+        if(!$board_meetings->is_published && !(auth()->user() && auth()->user()->is_admin))
+            return redirect()->route('home');
+
+        return redirect()->route('board_meetings.index');
     }
 
     public function create()
     {
-        return view('board_meetings.edit', ['board_meeting' => new BoardMeeting()]);
+        return view('posts.edit', ['post' => new BoardMeeting()]);
     }
 
     public function store()
     {
-        request()->validate($this->validation);
-
-        $board_meeting = BoardMeeting::create([
-            'user_id'       => auth()->id(),
-            'title'         => request()->title,
-            'body'          => request()->body,
-            'is_published'  => request()->has('is_published'),
-            'is_pinned'     => request()->has('is_pinned'),
-            'created_at'    => request()->created_at
-        ]);
+        BoardMeeting::createFromRequest();
 
         session()->flash('message', 'Board_meeting created successfully.');
 
@@ -51,20 +46,12 @@ class BoardMeetingController extends Controller
 
     public function edit(BoardMeeting $board_meeting)
     {
-        return view('board_meetings.edit', compact('board_meeting'));
+        return view('posts.edit', ['post' => $board_meeting]);
     }
 
     public function update(BoardMeeting $board_meeting)
     {
-        request()->validate($this->validation);
-
-        $board_meeting->update([
-            'title'         => request()->title,
-            'body'          => request()->body,
-            'is_published'  => request()->has('is_published'),
-            'is_pinned'     => request()->has('is_pinned'),
-            'created_at'    => request()->created_at
-        ]);
+        $board_meeting->updateFromRequest();
 
         return redirect()->route('board_meetings.index');
     }

@@ -3,38 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Post;
-use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->only(['comment']);
+        $this->middleware('admin')->except(['comment']);
     }
     
     public function index()
     {
-        $posts = Post::withCount('comments')
-                    ->published()
-                    ->orderBy('created_at', 'desc')
-                    ->paginate(5);
-
-        return view('posts.index', compact('posts'));
-    }
-
-    public function search()
-    {
-        request()->validate(['query' => 'required']);
-
-        $query = request()->get('query');
-
-        $posts = Post::where('title', 'like', "%{$query}%")
-            ->orWhere('body', 'like', "%{$query}%")
+        $posts = Post::filterFromRequest()
             ->withCount('comments')
-            ->published()
-            ->paginate(5);
+            ->orderBy('created_at', 'desc')
+            ->paginate(10)
+            ->withQueryString();
 
-        return view('post.search', compact('posts'));
+        return view('posts', compact('posts'));
     }
 
     public function destroy(Post $post)
@@ -42,5 +28,14 @@ class PostController extends Controller
         $post->delete();
 
         return redirect()->route('posts.index');
+    }
+    
+    public function comment(Post $post)
+    {
+        request()->validate(['comment' => 'required|string']);
+
+        $post->comments()->create(['body' => request('comment')]);
+
+        return back();
     }
 }

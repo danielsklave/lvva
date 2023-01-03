@@ -3,14 +3,16 @@
     $required = $required ?? false; 
     $multiple = $multiple ?? false; 
     $value = old($name, $value ?? null);
+    $image = $image ?? false;
 @endphp
 
 <div class="space-y-2">
     @if($label)
-    <label class="font-bold block text-lg {{ $required ? 'label-required' : '' }}" for="{{ $name }}">
-        {{ $label }}
-    </label>
+        <label class="font-bold block text-lg {{ $required ? 'label-required' : '' }}" for="{{ $name }}">
+            {{ $label }}
+        </label>
     @endif
+
     <input 
         {{ $multiple ? 'multiple' : '' }}
         id="{{ $name }}"
@@ -19,18 +21,28 @@
         type="file"
         data-allow-reorder="true"
         data-store-as-file="true"
-        data-label-idle="Ievelciet vai <span class='filepond--label-action'>izvēlieties</span> failus"
+        data-label-idle="Ievelciet vai <span class='filepond--label-action'>izvēlieties</span> @if($image) attēlus līdz 4096 KB @else failus @endif"
     >
-    <p class="mt-1 text-sm text-gray-500">PNG, JPG, GIF vai TIFF</p>
-    @error($name)
-        <p class="text-red-600" role="alert">{{ $message }}</p>
+
+    @error($name.($multiple ? '.*' : ''))
+        <p class="text-red-600" role="alert">
+            {{ $message }}
+        </p>
     @enderror
 </div>
 
 <script>
+    FilePond.registerPlugin(FilePondPluginFileValidateType);
+    FilePond.registerPlugin(FilePondPluginFileValidateSize);
     FilePond.registerPlugin(FilePondPluginImagePreview);
 
     FilePond.create(document.querySelector('#{{ $name }}'), {
+        @if($image)
+            maxFileSize: "4096KB",
+            labelMaxFileSizeExceeded: 'Faila izmērs ir pārāk liels',
+            labelMaxFileSize: 'Maksimālais faila izmērs ir {filesize}',
+            acceptedFileTypes: ["image/*"],
+        @endif
         files: [
             @if($multiple)
                 @foreach ($value ?? [] as $file)

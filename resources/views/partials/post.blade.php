@@ -2,15 +2,17 @@
     <div class="md:flex">
         @if($post->cover_image)
             <div class="md:shrink-0">
-                <img class="h-48 w-full object-cover md:h-full md:!w-60" src="{{ url('storage/files/'.$post->cover_image) }}" alt="Cover image">
+                <img 
+                    class="h-48 w-full object-cover md:h-full md:!w-60"
+                    src="{{ url('storage/files/'.$post->cover_image) }}"
+                    alt="Raksta priekšskata attēls"
+                />
             </div>
         @endif
         <div class="p-6 space-y-4 w-full">
-            <a href="{{ $post->path() }}">
-                <h5 class="text-2xl font-bold tracking-tigh">
-                    {{ $post->title }}    
-                </h5>
-            </a>
+            <h5 class="text-2xl font-bold tracking-tigh">
+                {{ $post->title }}    
+            </h5>
             <div class="flex flex-wrap justify-between gap-2">
                 <div title="Publicēšanas laiks" class="gap-2 w-fit bg-gray-100 text-gray-800 text-sm font-medium inline-flex items-center px-2.5 py-1 rounded">
                     <i class="fa-solid fa-clock"></i>
@@ -30,9 +32,9 @@
                 </div>
             </div>
             <div class="flex"><div class="truncate-text fr-view">
-                {!! $post->body !!}
+                {!! strip_tags($post->body, '<p><a><b><i><u><s><span>') !!}
             </div></div>
-            <a href="{{ $post->path() }}" class="btn-sm">
+            <a href="{{ route($post->category.'s.show', $post) }}" class="btn-sm">
                 Lasīt vairāk
                 <i class="fa-solid fa-arrow-right"></i>
             </a>

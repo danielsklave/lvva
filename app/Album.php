@@ -8,22 +8,17 @@ class Album extends Post
 {
     use HasParentModel;
 
+    protected $attributes = [
+        'category' => 'album',
+        'is_published' => true
+    ];
+
     public static function boot()
     {
         parent::boot();
-
-        self::creating(function($model){
-            $model->category = 'album';
-        });
 
         static::addGlobalScope(function ($query) {
             $query->where('category', 'album');
         });
     }
-
-    public function path()
-    {
-        return url("/albums/{$this->id}");
-    }
-
 }
