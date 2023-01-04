@@ -27,7 +27,7 @@ class PostController extends Controller
     {
         $post->delete();
 
-        return redirect()->route('posts.index');
+        return to_route('posts.index');
     }
     
     public function comment(Post $post)

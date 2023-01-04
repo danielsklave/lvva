@@ -36,7 +36,7 @@
             </form>
         @endif
 
-        @include('partials.back-link')
+        <x-back-link />
     </div>
 </div>
 

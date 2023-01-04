@@ -24,10 +24,10 @@ class TournamentController extends Controller
 
     public function show(Tournament $tournament)
     {
-        if(!$tournament->is_published && !(auth()->user() && auth()->user()->is_admin))
-            return redirect()->route('home');
+        if(!$tournament->userCanView)
+            return to_route('home');
 
-        return redirect()->route('tournaments.index');
+        return to_route('tournaments.index');
     }
 
     public function create()
@@ -39,9 +39,7 @@ class TournamentController extends Controller
     {
         Tournament::createFromRequest();
 
-        session()->flash('message', 'Tournament created successfully.');
-
-        return redirect()->route('tournaments.index');
+        return to_route('tournaments.index');
     }
 
     public function edit(Tournament $tournament)
@@ -53,13 +51,13 @@ class TournamentController extends Controller
     {
         $tournament->updateFromRequest();
 
-        return redirect()->route('tournaments.index');
+        return to_route('tournaments.index');
     }
 
     public function destroy(Tournament $tournament)
     {
         $tournament->delete();
 
-        return redirect()->route('tournaments.index');
+        return to_route('tournaments.index');
     }
 }

@@ -24,10 +24,10 @@ class BoardMeetingController extends Controller
 
     public function show(BoardMeeting $board_meetings)
     {
-        if(!$board_meetings->is_published && !(auth()->user() && auth()->user()->is_admin))
-            return redirect()->route('home');
+        if(!$board_meetings->userCanView)
+            return to_route('home');
 
-        return redirect()->route('board_meetings.index');
+        return to_route('board_meetings.index');
     }
 
     public function create()
@@ -39,9 +39,7 @@ class BoardMeetingController extends Controller
     {
         BoardMeeting::createFromRequest();
 
-        session()->flash('message', 'Board_meeting created successfully.');
-
-        return redirect()->route('board_meetings.index');
+        return to_route('board_meetings.index');
     }
 
     public function edit(BoardMeeting $board_meeting)
@@ -53,13 +51,13 @@ class BoardMeetingController extends Controller
     {
         $board_meeting->updateFromRequest();
 
-        return redirect()->route('board_meetings.index');
+        return to_route('board_meetings.index');
     }
 
     public function destroy(BoardMeeting $board_meeting)
     {
         $board_meeting->delete();
 
-        return redirect()->route('board_meetings.index');
+        return to_route('board_meetings.index');
     }
 }

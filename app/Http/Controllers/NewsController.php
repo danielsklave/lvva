@@ -25,8 +25,8 @@ class NewsController extends Controller
 
     public function show(News $news)
     {
-        if(!$news->is_published && !(auth()->user() && auth()->user()->is_admin))
-            return redirect()->route('home');
+        if(!$news->userCanView)
+            return to_route('home');
 
         return view('posts.show', ['post' => $news]);
     }
@@ -40,7 +40,7 @@ class NewsController extends Controller
     {
         $news = News::createFromRequest();
 
-        return redirect()->route('news.show', $news);
+        return to_route('news.show', $news);
     }
 
     public function edit(News $news)
@@ -52,13 +52,13 @@ class NewsController extends Controller
     {
         $news->updateFromRequest();
 
-        return redirect()->route('news.show', $news);
+        return to_route('news.show', $news);
     }
 
     public function destroy(News $news)
     {
         $news->delete();
 
-        return redirect()->route('news.index');
+        return to_route('news.index');
     }
 }

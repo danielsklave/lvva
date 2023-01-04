@@ -25,7 +25,7 @@ class UserController extends Controller
 
         $user->delete();
 
-        return redirect()->route('home');
+        return to_route('home');
     }
     
     public function changePassword()
@@ -46,6 +46,6 @@ class UserController extends Controller
         $user->password = Hash::make(request('new_password'));
         $user->save();
 
-        return redirect()->route('login')->with(auth()->logout());
+        return to_route('login')->with(auth()->logout());
     }
 }

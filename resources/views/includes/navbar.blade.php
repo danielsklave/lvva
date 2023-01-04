@@ -48,7 +48,7 @@
                 </a>
               </li>
               <li>
-                <a href="http://www.lvva.lv/nolikumi/22/LVVA%20biedru%20saraksts%20(10%2009%202022).pdf" target="_blank" class="block py-2 px-4 hover:bg-gray-100">
+                <a href="{{ url('files/LVVA biedru saraksts (10 09 2022).pdf') }}" target="_blank" class="block py-2 px-4 hover:bg-gray-100">
                   Juridiskie biedri
                 </a>
               </li>
@@ -72,7 +72,7 @@
         </li>
         <li>
           <a href="{{ route('contests.index') }}" class="block py-2 px-4 text-white rounded hover:bg-sky-700 md:bg-transparent">
-            LVVA konkurss
+            Konkursi
           </a>
         </li>
         <li>
@@ -109,7 +109,7 @@
                     </ul>
                     <div class="py-1">
                       <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">
-                        Izraksīties
+                        Izrakstīties
                       </a>
                       <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                           {{ csrf_field() }}

@@ -25,8 +25,8 @@ class AlbumController extends Controller
 
     public function show(Album $album)
     {
-        if(!$album->is_published && !(auth()->user() && auth()->user()->is_admin))
-            return redirect()->route('home');
+        if(!$album->userCanView)
+            return to_route('home');
 
         return view('posts.show', ['post' => $album]);
     }
@@ -40,7 +40,7 @@ class AlbumController extends Controller
     {
         $album = Album::createFromRequest();
 
-        return redirect()->route('albums.show', $album);
+        return to_route('albums.show', $album);
     }
     
     public function edit(Album $album)
@@ -52,13 +52,13 @@ class AlbumController extends Controller
     {
         $album->updateFromRequest();
 
-        return redirect()->route('albums.show', $album);
+        return to_route('albums.show', $album);
     }
 
     public function destroy(Album $album)
     {
         $album->delete();
 
-        return redirect()->route('posts.index');
+        return to_route('posts.index');
     }
 }

@@ -74,7 +74,7 @@
             Kontakti
         </a> 
 
-        <a href="http://www.lvva.lv/downloads/faili_21/privatuma_politika_lvva_22_01_2021.pdf">
+        <a href="{{ url('files/privatuma_politika_lvva_22_01_2021.pdf') }}">
             Privātuma politika
         </a>
     </div>

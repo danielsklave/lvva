@@ -24,10 +24,10 @@ class MemberMeetingController extends Controller
 
     public function show(MemberMeeting $member_meeting)
     {
-        if(!$member_meeting->is_published && !(auth()->user() && auth()->user()->is_admin))
-            return redirect()->route('home');
+        if(!$member_meeting->userCanView)
+            return to_route('home');
 
-        return redirect()->route('member_meetings.index');
+        return to_route('member_meetings.index');
     }
 
     public function create()
@@ -39,9 +39,7 @@ class MemberMeetingController extends Controller
     {
         MemberMeeting::createFromRequest();
 
-        session()->flash('message', 'Member_meeting created successfully.');
-
-        return redirect()->route('member_meetings.index');
+        return to_route('member_meetings.index');
     }
 
     public function edit(MemberMeeting $member_meeting)
@@ -53,13 +51,13 @@ class MemberMeetingController extends Controller
     {
         $member_meeting->updateFromRequest();
 
-        return redirect()->route('member_meetings.index');
+        return to_route('member_meetings.index');
     }
 
     public function destroy(MemberMeeting $member_meeting)
     {
         $member_meeting->delete();
 
-        return redirect()->route('member_meetings.index');
+        return to_route('member_meetings.index');
     }
 }

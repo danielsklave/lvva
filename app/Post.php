@@ -74,6 +74,8 @@ class Post extends Model
             ]);
             $file->move('storage/files/', $filename);
         }
+
+        return $post;
     }
 
     public function updateFromRequest()
@@ -111,6 +113,7 @@ class Post extends Model
         ]);
 
         // Update post files
+
         $filesIds = $this->files->pluck('id')->toArray();
 
         $newFilesIds = [];
@@ -118,9 +121,11 @@ class Post extends Model
         {
             $oldFile = $this->files->where('file_name', $file->getClientOriginalName())->first();
 
+            // Only uodate order if file has no changed
             if($oldFile) $newFile = $oldFile;
             else
             {
+                // If new file added, save it in the file system
                 $filename = time().$file->getClientOriginalName();
                 $newFile = $this->files()->create(['file_name' => $filename]);
                 $file->move('storage/files/', $filename);
@@ -130,6 +135,7 @@ class Post extends Model
             $newFilesIds[] = $newFile->id;
         }
 
+        // Delete removed files
         $filesToDelete = array_diff($filesIds, $newFilesIds);
 
         foreach($this->files()->whereIn('id', $filesToDelete)->get() as $file) 
@@ -196,5 +202,10 @@ class Post extends Model
     public function getPublishedAttribute()
     {
         return ($this->is_published) ? 'Jā' : 'Nē';
+    }
+
+    public function getUserCanViewAttribute()
+    {
+        return $this->is_published || (auth()->user() && auth()->user()->is_admin);
     }
 }

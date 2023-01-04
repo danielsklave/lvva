@@ -161,13 +161,14 @@ class PostFactory extends Factory {
         ];
     
         $categories = ['new', 'album', 'board_meeting', 'member_meeting', 'contest', 'tournament'];
+        $category = $categories[array_rand($categories)];
 
         return [
             'title'        => $this->faker->sentence,
             'body'         => $this->faker->paragraph(30),
             'user_id'      => rand(1, 10),
-            'cover_image'  => $images[array_rand($images)],
-            'category'  => $categories[array_rand($categories)],
+            'cover_image'  => in_array($category, ['new', 'album']) ? $images[array_rand($images)] : null,
+            'category'     => $category,
             'is_published' => rand(0, 1),
             'is_pinned'    => 0,
             'created_at'   => date('Y-m-d H:i:s', rand(strtotime('2012-01-01'), strtotime('2022-12-31')))

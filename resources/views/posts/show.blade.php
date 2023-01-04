@@ -5,12 +5,16 @@
     <div class="page-title">
         <h1>{{ $post->title }}</h1>
 
-        @admin
-            <a href="{{ route($post->category.'s.edit', $post) }}" class="btn-sm">Rediģēt</a>
-        @endadmin
+        <div class="flex gap-2">
+            @admin
+                <a href="{{ route($post->category.'s.edit', $post) }}" class="btn-sm">Rediģēt</a>
+            @endadmin
+
+            <x-back-link route="{{ route($post->category.'s.index') }}" />
+        </div>
     </div>
 
-    <div title="Publicēšanas laiks" class="gap-2 w-fit bg-gray-100 text-gray-800 text-sm font-medium inline-flex items-center px-2.5 py-1 rounded">
+    <div title="Publicēšanas laiks" class="tag bg-gray-100 text-gray-800">
         <i class="fa-solid fa-clock"></i>
         {!! $post->created_at->formatLocalized('%e. %B %Y') !!}
     </div>
@@ -68,7 +72,7 @@
 
     @guest
         <div class="text-gray-400">
-            Komentārus var publicēt tikai autentificēties lietotāji.
+            Komentārus var publicēt tikai autentificējušies lietotāji.
 
             <a href="{{ route('login') }}" class="text-sky-600 hover:underline">
                 Autentificēties

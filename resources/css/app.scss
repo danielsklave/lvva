@@ -87,7 +87,7 @@ body button.bg-sky-700 {
         [href^="#"],
         [href^="/"]:not([href^="//"]),
         [href*="//www.lvva.lv"],
-        [href*="//192.168.0.178:8000"]
+        [href*="//lvva.ddns.net"]
     ))::before {
         content: "\f0c1";
     }
@@ -137,10 +137,6 @@ body button.bg-sky-700 {
     @apply bg-sky-700 hover:bg-sky-800;
 }
 
-.filepond--credits {
-    display: none;
-}
-
 @media (min-width: 30em) {
     .filepond--item {
         width: calc(50% - 0.5em);
@@ -153,12 +149,11 @@ body button.bg-sky-700 {
     }
 }
 
-.fr-view .fr-file::after {
-    display: none;
-    clear: both;
-}
-
 .label-required:after {
     content:" *";
     color: red;
+}
+
+.tag {
+    @apply gap-2 w-fit text-sm font-medium inline-flex items-center px-2.5 py-1 rounded;
 }

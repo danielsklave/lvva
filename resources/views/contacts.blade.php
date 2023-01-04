@@ -22,11 +22,11 @@
         <div><b>Ināra Fjodorova</b> (valdes locekle) - 26483993</div>
         <div><b>Aivars Puriņš</b> (valdes loceklis) - 26363315</div>
         <div><br></div>
-        <div><a href="http://www.lvva.lv/downloads/reg_apl_lvva.pdf" target="_blank">Reģistrācijas apliecība (27.12.2012)</a></div>
-        <div><a href="http://www.lvva.lv/valdes_lemumi/2022/LVVA%20Stat%C5%ABti%20(29%2001%202022).pdf" target="_blank">LVVA statūti (29.01.2022)</a></div>
-        <div><a href="http://www.lvva.lv/valdes_lemumi/2022/LR%20UR%20L%C4%93mums_LVVA%20(12%2004%202022).pdf" target="_blank">Uzņēmumu Reģistra lēmums (12.04.2022)</a></div>
-        <div><a href="http://www.lvva.lv/downloads/LVVA_sabiedrisk%C4%81_labuma_statuss.pdf" target="_blank">VID lēmums par sabiedriskā labuma statusu (12.11.2019)</a></div>
-        <div><a href="http://www.lvva.lv/downloads/iesniegums_lvva_2019.doc" target="_blank">Iesniegums uzņemšanai par LVVA biedru</a></div>
+        <div><a href="{{ url('files/reg_apl_lvva.pdf') }}" target="_blank">Reģistrācijas apliecība (27.12.2012)</a></div>
+        <div><a href="{{ url('files/LVVA Statūti (29 01 2022).pdf') }}" target="_blank">LVVA statūti (29.01.2022)</a></div>
+        <div><a href="{{ url('files/LR UR Lēmums_LVVA (12 04 2022).pdf') }}" target="_blank">Uzņēmumu Reģistra lēmums (12.04.2022)</a></div>
+        <div><a href="{{ url('files/LVVA_sabiedriskā_labuma_statuss.pdf') }}" target="_blank">VID lēmums par sabiedriskā labuma statusu (12.11.2019)</a></div>
+        <div><a href="{{ url('files/iesniegums_lvva_2019.doc') }}" target="_blank">Iesniegums uzņemšanai par LVVA biedru</a></div>
         <div><br></div>
         <div>LVVA biedru nauda 2022.gadā <b>15,00 EUR</b> (piecpadsmit eiro)</div>
         <div><br></div>

@@ -2514,11 +2514,11 @@ input:checked + .toggle-bg{
 .justify-evenly{
   justify-content: space-evenly;
 }
-.gap-8{
-  gap: 2rem;
-}
 .gap-2{
   gap: 0.5rem;
+}
+.gap-8{
+  gap: 2rem;
 }
 .gap-4{
   gap: 1rem;
@@ -3091,10 +3091,10 @@ body button.bg-sky-700 {
 .style-links a[href]:not(:where([href^="#"],
 [href^="/"]:not([href^="//"]),
 [href*="//www.lvva.lv"],
-[href*="//192.168.0.178:8000"]))::before, a.style-links[href]:not(:where([href^="#"],
+[href*="//lvva.ddns.net"]))::before, a.style-links[href]:not(:where([href^="#"],
 [href^="/"]:not([href^="//"]),
 [href*="//www.lvva.lv"],
-[href*="//192.168.0.178:8000"]))::before {
+[href*="//lvva.ddns.net"]))::before {
   content: "\f0c1";
 }
 .style-links a[href$=".pdf"]::before, a.style-links[href$=".pdf"]::before {
@@ -3223,10 +3223,6 @@ body button.page-body input[type=file]::file-selector-button {
   background-color: rgb(7 89 133 / var(--tw-bg-opacity));
 }
 
-.filepond--credits {
-  display: none;
-}
-
 @media (min-width: 30em) {
   .filepond--item {
     width: calc(50% - 0.5em);
@@ -3237,14 +3233,25 @@ body button.page-body input[type=file]::file-selector-button {
     width: calc(33.33% - 0.5em);
   }
 }
-.fr-view .fr-file::after {
-  display: none;
-  clear: both;
-}
-
 .label-required:after {
   content: " *";
   color: red;
+}
+
+.tag{
+  display: inline-flex;
+  width: -moz-fit-content;
+  width: fit-content;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.25rem;
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
 }
 
 .hover\:border-gray-300:hover{

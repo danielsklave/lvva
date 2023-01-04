@@ -6,7 +6,7 @@
 
     <div class="font-bold text-2xl flex items-center justify-between">
         Autentifikācija
-        @include('partials.back-link')
+        <x-back-link route="{{ route('home') }}" />
     </div>
 
     <form 

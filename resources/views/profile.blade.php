@@ -5,12 +5,10 @@
     <div class="page-title">
         <h1>Profils</h1>
 
-        @if(!$user->is_admin)
-            <form action="{{ route('users.destroy', $user) }}" method="POST">
-                @csrf @method('DELETE')
-                <button class="delBtn btn-sm" type="submit">Dzēst</button>
-            </form>
-        @endif
+        <form action="{{ route('users.destroy', $user) }}" method="POST">
+            @csrf @method('DELETE')
+            <button class="delBtn btn-sm" type="submit">Dzēst</button>
+        </form>
     </div>
 
     <dl class="max-w-md text-gray-900 divide-y divide-gray-200">

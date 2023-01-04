@@ -24,10 +24,10 @@ class ContestController extends Controller
 
     public function show(Contest $contest)
     {
-        if(!$contest->is_published && !(auth()->user() && auth()->user()->is_admin))
-            return redirect()->route('home');
+        if(!$contest->userCanView)
+            return to_route('home');
 
-        return redirect()->route('contests.index');
+        return to_route('contests.index');
     }
 
     public function create()
@@ -39,7 +39,7 @@ class ContestController extends Controller
     {
         Contest::createFromRequest();
 
-        return redirect()->route('contests.index');
+        return to_route('contests.index');
     }
 
     public function edit(Contest $contest)
@@ -51,13 +51,13 @@ class ContestController extends Controller
     {
         $contest->updateFromRequest();
 
-        return redirect()->route('contests.index');
+        return to_route('contests.index');
     }
 
     public function destroy(Contest $contest)
     {
         $contest->delete();
 
-        return redirect()->route('contests.index');
+        return to_route('contests.index');
     }
 }

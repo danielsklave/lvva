@@ -23,7 +23,7 @@
         <option></option>
 
         @foreach($items as $key => $name)
-            <option value="{{ $key }}" {{ $value == $key ? 'selected' : '' }}>
+            <option value="{{ $key }}" @selected($value == $key)>
                 {{ $name }}
             </option>
         @endforeach
