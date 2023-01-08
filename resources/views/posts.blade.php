@@ -6,7 +6,7 @@
     $categories = [
         'new' => 'Ziņa',
         'album' => 'Albums',
-        'tournament' => 'Sacensība',
+        'tournament' => 'Sacensības',
         'board_meeting' => 'Valdes sēde',
         'member_meeting' => 'Bierdu sapulce',
         'contest' => 'Konkurss',

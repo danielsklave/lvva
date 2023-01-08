@@ -14,7 +14,7 @@ class ContestController extends Controller
     public function index()
     {
         $contestsByYear = Contest::filterFromRequest()
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->published()
             ->get()
             ->groupBy(function($data) { return $data->created_at->format('Y'); });

@@ -14,7 +14,7 @@ class TournamentController extends Controller
     public function index()
     {
         $tournamentsByYear = Tournament::filterFromRequest()
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->published()
             ->get()
             ->groupBy(function($data) { return $data->created_at->format('Y'); });

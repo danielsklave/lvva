@@ -29,12 +29,12 @@ class PageController extends Controller
         $pins = Post::withCount(['comments', 'files'])
             ->pinned()
             ->published()
-            ->orderBy('updated_at', 'desc')
+            ->latest('updated_at')
             ->get();
 
         $postsByCategory = Post::withCount(['comments', 'files'])
             ->published()
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->get()
             ->groupBy('category')
             ->map(function($categoryPosts) {

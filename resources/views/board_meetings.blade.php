@@ -56,8 +56,8 @@
         </div>
     </div>
     
-    <div class="flex flex-col-reverse md:flex-row gap-8 md:gap-12 style-links">
-        <div class="grow">
+    <div class="flex flex-col-reverse md:flex-row gap-8 md:gap-12">
+        <div class="md:w-3/4">
             <h1 class="text-2xl font-bold">Valdes sēžu lēmumu protokoli</h1>
             
             <x-year-accordion :postsByYear="$boardMeetingsByYear" />
@@ -65,7 +65,7 @@
         </div>
         <div>
             <h1 class="text-2xl font-bold">Valdes dalībnieki</h1>
-            <ul class="divide-y divide-gray-200">
+            <ul class="divide-y divide-gray-200 style-links">
                 @foreach ($valdesDalibnieki as $item)
                     <li class="py-3 sm:py-4">
                         <div class="flex items-center space-x-4">

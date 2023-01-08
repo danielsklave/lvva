@@ -25,7 +25,7 @@ class UserController extends Controller
 
         $user->delete();
 
-        return to_route('home');
+        return to_route('home')->with(auth()->logout());
     }
     
     public function changePassword()

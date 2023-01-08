@@ -62,7 +62,7 @@
                     <tr class="bg-white border-b hover:bg-gray-50">
                         <td class="py-4 px-6">{{ $comment->user->name }}</td>
                         <td class="py-4 px-6">{{ $comment->body }}</td>
-                        <td class="py-4 px-6">{{ $comment->updated_at->formatLocalized('%d.%m.%Y %R') }}</td>
+                        <td class="py-4 px-6">{{ $comment->created_at->formatLocalized('%d.%m.%Y %R') }}</td>
                         <td class="py-4 px-6 space-y-2">
                             <a href="{{ route($comment->post->category.'s.show', $comment->post) }}" class="block font-medium hover:underline">
                                 Apskatīt

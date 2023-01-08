@@ -16,7 +16,7 @@ class CommentController extends Controller
     {
         $comments = Comment::filterFromRequest()
             ->with(['user', 'post'])
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->paginate(10)
             ->withQueryString();
 

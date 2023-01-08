@@ -15,7 +15,7 @@ class AlbumController extends Controller
     {
         $albums = Album::filterFromRequest()
             ->withCount(['files', 'comments'])
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->published()
             ->paginate(10)
             ->withQueryString();

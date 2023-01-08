@@ -16,7 +16,7 @@ class PostController extends Controller
     {
         $posts = Post::filterFromRequest()
             ->withCount('comments')
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->paginate(10)
             ->withQueryString();
 

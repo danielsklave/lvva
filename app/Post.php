@@ -20,12 +20,18 @@ class Post extends Model
         'created_at'
     ];
 
-    public static $validation = [
+    public static $saveValidation = [
         'title'       => 'required|string|max:191',
         'cover_image' => 'nullable|image|max:4096',
         'body'        => 'nullable|string',
         'files.*'     => 'nullable|image|max:4096',
         'created_at'  => 'required|date_format:d.m.Y|after:01.01.1970',
+    ];
+
+    public static $filterValidation = [
+        'title'       => 'nullable|string|max:191',
+        'date_from'   => 'nullable|date_format:d.m.Y|after:01.01.1970',
+        'date_to'     => 'nullable|date_format:d.m.Y|after:01.01.1970',
     ];
 
     public static function boot()
@@ -37,16 +43,19 @@ class Post extends Model
         });
 
         static::deleting(function($model) {
+            // Delete all attached files
             if($model->cover_image)
                 unlink('storage/files/'.$model->cover_image);
+
+            foreach($model->files as $file) $file->delete();
         });
     }
 
     public static function createFromRequest()
     {
-        request()->validate(static::$validation);
+        request()->validate(static::$saveValidation);
 
-        // Create cover image file
+        // Create cover image file if added
         if(request('cover_image'))
         {
             $cover = request('cover_image');
@@ -65,7 +74,7 @@ class Post extends Model
         ]);
 
         // Create post files
-        foreach(request()->files ?? [] as $index => $file)
+        foreach(request()->file('files') ?? [] as $index => $file)
         {
             $filename = time().$file->getClientOriginalName();
             $post->files()->create([
@@ -80,17 +89,18 @@ class Post extends Model
 
     public function updateFromRequest()
     {
-        request()->validate(static::$validation);
+        request()->validate(static::$saveValidation);
 
-        // Update cover image file
         if(request('cover_image')) 
         {
             if(request('cover_image')->getClientOriginalName() == $this->cover_image)
             {
+                // Continue if cover image was not changed
                 $filename = $this->cover_image;
             }
             else
             {
+                // Update cover image file if cover image was changed
                 if($this->cover_image) unlink('storage/files/'.$this->cover_image);
                 $cover = request('cover_image');
                 $filename = time().$cover->getClientOriginalName();
@@ -99,6 +109,7 @@ class Post extends Model
         } 
         else
         {
+            // Delete file if cover image was removed
             if($this->cover_image) unlink('storage/files/'.$this->cover_image);
         }
 
@@ -121,7 +132,7 @@ class Post extends Model
         {
             $oldFile = $this->files->where('file_name', $file->getClientOriginalName())->first();
 
-            // Only uodate order if file has no changed
+            // Only update order if file has no changed
             if($oldFile) $newFile = $oldFile;
             else
             {
@@ -153,16 +164,18 @@ class Post extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class)->orderBy('created_at', 'desc');
+        return $this->hasMany(Comment::class)->orderBy('created_at');
     }
 
     public function files()
     {
-        return $this->hasMany(File::class)->orderBy('order', 'asc');
+        return $this->hasMany(File::class)->orderBy('order');
     }
 
     public function scopeFilterFromRequest($query)
     {
+        request()->validate(static::$filterValidation);
+
         if (request('search'))
             $query->where('title', 'like', '%'.request('search').'%');
 

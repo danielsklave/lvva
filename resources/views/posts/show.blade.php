@@ -7,7 +7,9 @@
 
         <div class="flex gap-2">
             @admin
-                <a href="{{ route($post->category.'s.edit', $post) }}" class="btn-sm">Rediģēt</a>
+                <a href="{{ route($post->category.'s.edit', $post) }}" class="btn-sm">
+                    Rediģēt
+                </a>
             @endadmin
 
             <x-back-link route="{{ route($post->category.'s.index') }}" />
@@ -85,5 +87,13 @@
             @each('partials.comment', $post->comments, 'comment', 'partials.empty')
         </div>
     @endif
+
+    <script>
+        document.querySelectorAll('.delBtn').forEach(delBtn =>
+            delBtn.addEventListener("click", e =>
+                !confirm('Vai tiešām vēlaties dzēst komentāru?') && e.preventDefault()
+            )
+        );
+</script>
 
 @endsection

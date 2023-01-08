@@ -42,5 +42,7 @@ return [
         'new_password' => 'Jaunā parole',
         'current_password' => 'Esošā parole',
         'comment' => 'Komentārs',
+        'date_from' => 'Datums no',
+        'date_to' => 'Datums līdz',
     ],
 ];

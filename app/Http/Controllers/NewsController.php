@@ -16,7 +16,7 @@ class NewsController extends Controller
         $news = News::filterFromRequest()
             ->withCount('comments')
             ->published()
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->paginate(10)
             ->withQueryString();
 

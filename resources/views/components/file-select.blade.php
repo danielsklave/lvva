@@ -32,10 +32,6 @@
 </div>
 
 <script>
-    FilePond.registerPlugin(FilePondPluginFileValidateType);
-    FilePond.registerPlugin(FilePondPluginFileValidateSize);
-    FilePond.registerPlugin(FilePondPluginImagePreview);
-
     FilePond.create(document.querySelector('#{{ $name }}'), {
         @if($image)
             maxFileSize: "4096KB",

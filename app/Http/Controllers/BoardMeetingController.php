@@ -14,7 +14,7 @@ class BoardMeetingController extends Controller
     public function index()
     {
         $boardMeetingsByYear = BoardMeeting::filterFromRequest()
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->published()
             ->get()
             ->groupBy(function($data) { return $data->created_at->format('Y'); });

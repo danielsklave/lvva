@@ -14,7 +14,7 @@ class MemberMeetingController extends Controller
     public function index()
     {
         $memberMeetingsByYear = MemberMeeting::filterFromRequest()
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->published()
             ->get()
             ->groupBy(function($data) { return $data->created_at->format('Y'); });

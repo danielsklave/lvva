@@ -1,4 +1,9 @@
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
 @import '~lightgallery/css/lightgallery-bundle.css';
+@import '~jodit/build/jodit.min.css';
+@import '~filepond/dist/filepond.min.css';
+@import '~filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -8,12 +13,13 @@ html {
     font-family: Inter;
 }
 
-.bg-img {
+.page-bg {
     width: 100%;
     min-width: 0;
     @apply bg-gray-50;
 }
 
+// Fix styles for text editor
 .jodit-wysiwyg {
     ul {
         padding-left: 2rem;
@@ -25,10 +31,7 @@ html {
     }
 }
 
-.media.comment:last-child {
-    margin-bottom: 4em !important;
-}
-
+// Preview text
 .truncate-text {
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -41,6 +44,8 @@ html {
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+
+// Override flowbite styles
 
 @media (min-width: 768px){
     nav.md\:p-2 {
@@ -69,10 +74,7 @@ html {
     }
 }
 
-body button.bg-sky-700 {
-    background-color: rgb(3 105 161);
-}
-
+// Styled links
 .style-links a, a.style-links {
     &[href]{
         @apply my-1 inline-flex items-center py-2 px-4 font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-200 focus:text-blue-700;
@@ -95,10 +97,12 @@ body button.bg-sky-700 {
         content: "\f1c1";
         margin: 0 14px 0 4px;
     }
-    &[href$=".doc"]::before {
+    &[href$=".doc"]::before,
+    &[href$=".docx"]::before {
         content: "\f1c2";
         margin: 0 14px 0 4px;
     }
+    &[href$=".xls"]::before,
     &[href$=".xlsx"]::before {
         content: "\f1c3";
         margin: 0 14px 0 4px;
@@ -106,11 +110,6 @@ body button.bg-sky-700 {
     &[href^="tel:"]::before {
         content: "\f095";
     }
-}
-
-.note-editor.note-frame .note-toolbar,
-.note-editor.note-frame div.note-statusbar {
-    background-color: white;
 }
 
 .page-title {
@@ -128,14 +127,13 @@ body button.bg-sky-700 {
     @apply gap-2 inline-flex items-center py-2 px-4 font-medium text-center text-white bg-sky-700 rounded-lg hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-blue-300;
 }
 
+// Accordion add bottom border to last element
 #accordion-open h2:last-of-type button,
 #accordion-open > div:last-of-type > div {
     border-bottom-width: 1px;
 }
 
-.page-body input[type="file"]::file-selector-button {
-    @apply bg-sky-700 hover:bg-sky-800;
-}
+// File select responsive grid
 
 @media (min-width: 30em) {
     .filepond--item {
@@ -148,6 +146,7 @@ body button.bg-sky-700 {
         width: calc(33.33% - 0.5em);
     }
 }
+
 
 .label-required:after {
     content:" *";

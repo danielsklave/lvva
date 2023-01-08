@@ -17,6 +17,12 @@ class Comment extends Model
         'post_id'
     ];
 
+    public static $filterValidation = [
+        'title'       => 'nullable|string|max:191',
+        'date_from'   => 'nullable|date_format:d.m.Y|after:01.01.1970',
+        'date_to'     => 'nullable|date_format:d.m.Y|after:01.01.1970',
+    ];
+
     public static function boot()
     {
         parent::boot();
@@ -28,6 +34,8 @@ class Comment extends Model
     
     public function scopeFilterFromRequest($query)
     {
+        request()->validate(static::$filterValidation);
+
         if (request('author'))
             $query->whereRelation('user', 'name', 'like', '%'.request('author').'%');
 
